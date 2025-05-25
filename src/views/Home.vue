@@ -31,19 +31,14 @@
 <script setup>
 const links = [
   {
-    title: "Beginning of March",
-    description: "Listen to a special song just for you",
-    path: "/beginning-of-march"
+    title: "Just For You",
+    description: "A special song and message from me",
+    path: "/just-for-you"
   },
   {
     title: "Birthday Wishes",
     description: "Messages from your loved ones",
     path: "/birthday-wishes"
-  },
-  {
-    title: "Just For You",
-    description: "A personal message from me",
-    path: "/my-message"
   },
   {
     title: "Our Story",

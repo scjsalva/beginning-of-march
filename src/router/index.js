@@ -17,7 +17,7 @@ const router = createRouter({
       component: Home
     },
     {
-      path: '/beginning-of-march',
+      path: '/just-for-you',
       name: 'player',
       component: Player
     },
@@ -25,11 +25,6 @@ const router = createRouter({
       path: '/birthday-wishes',
       name: 'wishes',
       component: () => import('../views/Wishes.vue')
-    },
-    {
-      path: '/my-message',
-      name: 'message',
-      component: () => import('../views/Message.vue')
     },
     {
       path: '/our-story',
