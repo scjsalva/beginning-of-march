@@ -42,7 +42,7 @@
     <div class="flex-1 flex items-center justify-center -mt-20">
       <div class="text-center">
         <img
-          src="/album-cover.jpg"
+          :src="getAssetUrl('album-cover.jpg')"
           alt="Album Cover"
           class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-lg shadow-xl mb-6 mx-auto"
         />
@@ -91,8 +91,13 @@ import Progress from './Progress.vue';
 // Constants
 const MAX_DURATION = 177; // 2:57 in seconds
 
+// Get base URL for assets
+const getAssetUrl = (path) => {
+  return import.meta.env.BASE_URL + path;
+};
+
 // Audio state
-const audio = new Audio('/demo-song.mp3');
+const audioSource = getAssetUrl('demo-song.mp3');
 const isPlaying = ref(false);
 const isRepeat = ref(false);
 const isMuted = ref(false);
@@ -101,7 +106,7 @@ const maxDuration = ref(MAX_DURATION);
 const isMenuOpen = ref(false);
 
 // Track info
-const albumCover = ref('/album-cover.jpg');
+const albumCover = ref(getAssetUrl('album-cover.jpg'));
 
 // Menu functions
 const toggleMenu = (event) => {
@@ -111,7 +116,7 @@ const toggleMenu = (event) => {
 
 const downloadSong = () => {
   const link = document.createElement('a');
-  link.href = '/demo-song.mp3';
+  link.href = getAssetUrl('demo-song.mp3');
   link.download = 'Beginning of March.mp3';
   document.body.appendChild(link);
   link.click();
@@ -121,9 +126,9 @@ const downloadSong = () => {
 
 const shareLink = () => {
   // Get the base URL of the current page
-  const baseUrl = window.location.origin;
+  const baseUrl = window.location.origin + import.meta.env.BASE_URL;
   // Create a clean URL with the desired filename
-  const directMp3Url = `${baseUrl}/beginning-of-march.mp3`;
+  const directMp3Url = `${baseUrl}beginning-of-march.mp3`;
 
   if (navigator.share) {
     navigator.share({
