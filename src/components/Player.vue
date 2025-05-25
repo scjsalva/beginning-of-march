@@ -154,6 +154,33 @@ const handleClickOutside = (event) => {
   }
 };
 
+// Keyboard controls
+const handleKeyPress = (event) => {
+  // Ignore if user is typing in an input field
+  if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+    return;
+  }
+
+  switch (event.code) {
+    case 'Space':
+      event.preventDefault(); // Prevent page scroll
+      togglePlay();
+      break;
+    case 'ArrowRight':
+      skipForward();
+      break;
+    case 'ArrowLeft':
+      skipBackward();
+      break;
+    case 'KeyM':
+      toggleMute();
+      break;
+    case 'KeyR':
+      toggleRepeat();
+      break;
+  }
+};
+
 // Audio event listeners
 const updateTime = () => {
   if (!audioElement.value) return;
@@ -228,6 +255,7 @@ const handleSeek = (time) => {
 // Lifecycle hooks
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  document.addEventListener('keydown', handleKeyPress);
   if (audioElement.value) {
     audioElement.value.addEventListener('timeupdate', updateTime);
     audioElement.value.addEventListener('loadedmetadata', updateDuration);
@@ -237,6 +265,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('keydown', handleKeyPress);
   if (audioElement.value) {
     audioElement.value.removeEventListener('timeupdate', updateTime);
     audioElement.value.removeEventListener('loadedmetadata', updateDuration);
