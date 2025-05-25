@@ -4,7 +4,7 @@ import Player from '../views/Player.vue'
 import Auth from '../views/Auth.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii/' : '/'),
   routes: [
     {
       path: '/auth',
