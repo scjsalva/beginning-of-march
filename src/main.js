@@ -3,14 +3,12 @@ import App from './App.vue'
 import router from './router'
 import './style.css'
 
-/* Import Font Awesome core */
+/* Import Font Awesome */
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* Import specific icons */
-import {
-  faPlay,
-  faPause,
+import { 
+  faPlay, 
+  faPause, 
   faRotateLeft,
   faRotateRight,
   faRepeat,
@@ -18,7 +16,9 @@ import {
   faVolumeXmark,
   faEllipsisVertical,
   faDownload,
-  faShare
+  faShare,
+  faEnvelope,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 /* Add icons to the library */
@@ -32,7 +32,9 @@ library.add(
   faVolumeXmark,
   faEllipsisVertical,
   faDownload,
-  faShare
+  faShare,
+  faEnvelope,
+  faXmark
 )
 
 /* Create Vue app */

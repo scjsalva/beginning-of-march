@@ -1,6 +1,17 @@
 <!-- Player.vue -->
 <template>
   <div class="min-h-screen flex flex-col relative bg-gradient-to-br from-pink-100 to-purple-100">
+    <!-- Message Button -->
+    <div class="absolute top-4 left-4">
+      <button
+        @click="showMessage = true"
+        class="p-2 rounded-full hover:bg-white/50 transition-colors text-gray-700 flex items-center gap-2"
+      >
+        <font-awesome-icon :icon="['fas', 'envelope']" class="w-4 h-4" />
+        <span class="text-sm font-medium">For You</span>
+      </button>
+    </div>
+
     <!-- Menu Button -->
     <div class="absolute top-4 right-4 menu-container">
       <button
@@ -53,7 +64,7 @@
 
     <!-- Player Controls -->
     <div class="player-container bg-white bg-opacity-80 backdrop-blur-sm shadow-lg">
-      <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-4">
+      <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-4 bg-white">
         <Progress
           :current-time="currentTime"
           :duration="maxDuration"
@@ -80,6 +91,43 @@
       @loadedmetadata="handleLoadedMetadata"
       @ended="handleEnded"
     ></audio>
+
+    <!-- Message Modal -->
+    <div
+      v-if="showMessage"
+      class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      @click="showMessage = false"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8"
+        @click.stop
+      >
+        <div class="flex justify-between items-start mb-6">
+          <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
+            A Letter For You
+          </h2>
+          <button
+            @click="showMessage = false"
+            class="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <font-awesome-icon :icon="['fas', 'xmark']" class="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div class="prose prose-zinc max-w-none">
+          <p class="text-gray-600 leading-relaxed">
+            Dear Jaii,
+          </p>
+          <p class="text-gray-600 leading-relaxed mt-4">
+            [Your heartfelt message will go here...]
+          </p>
+          <p class="text-gray-600 leading-relaxed mt-4">
+            With love,<br>
+            Your Secret Admirer
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -107,6 +155,7 @@ const isMuted = ref(false);
 const currentTime = ref(0);
 const maxDuration = ref(MAX_DURATION);
 const isMenuOpen = ref(false);
+const showMessage = ref(false);
 
 // Track info
 const albumCover = ref(getAssetUrl('album-cover.jpg'));
@@ -274,3 +323,10 @@ onUnmounted(() => {
   }
 });
 </script>
+
+<style>
+.prose {
+  max-width: 65ch;
+  margin: 0 auto;
+}
+</style>
