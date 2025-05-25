@@ -96,6 +96,9 @@ const getAssetUrl = (path) => {
   return import.meta.env.BASE_URL + path;
 };
 
+// Audio element ref
+const audioElement = ref(null);
+
 // Audio state
 const audioSource = getAssetUrl('demo-song.mp3');
 const isPlaying = ref(false);
@@ -153,28 +156,33 @@ const handleClickOutside = (event) => {
 
 // Audio event listeners
 const updateTime = () => {
-  if (audio.currentTime >= MAX_DURATION) {
-    audio.currentTime = MAX_DURATION;
-    audio.pause();
+  if (!audioElement.value) return;
+
+  if (audioElement.value.currentTime >= MAX_DURATION) {
+    audioElement.value.currentTime = MAX_DURATION;
+    audioElement.value.pause();
     isPlaying.value = false;
     if (isRepeat.value) {
-      audio.currentTime = 0;
-      audio.play();
+      audioElement.value.currentTime = 0;
+      audioElement.value.play();
       isPlaying.value = true;
     }
     return;
   }
-  currentTime.value = Math.min(audio.currentTime, MAX_DURATION);
+  currentTime.value = Math.min(audioElement.value.currentTime, MAX_DURATION);
 };
 
 const updateDuration = () => {
-  duration.value = audio.duration;
+  if (!audioElement.value) return;
+  maxDuration.value = Math.min(audioElement.value.duration, MAX_DURATION);
 };
 
 const handleEnded = () => {
+  if (!audioElement.value) return;
+
   if (isRepeat.value) {
-    audio.currentTime = 0;
-    audio.play();
+    audioElement.value.currentTime = 0;
+    audioElement.value.play();
   } else {
     isPlaying.value = false;
   }
@@ -182,20 +190,24 @@ const handleEnded = () => {
 
 // Player controls
 const togglePlay = () => {
+  if (!audioElement.value) return;
+
   if (isPlaying.value) {
-    audio.pause();
+    audioElement.value.pause();
   } else {
-    audio.play();
+    audioElement.value.play();
   }
   isPlaying.value = !isPlaying.value;
 };
 
 const skipForward = () => {
-  audio.currentTime = Math.min(audio.currentTime + 10, MAX_DURATION);
+  if (!audioElement.value) return;
+  audioElement.value.currentTime = Math.min(audioElement.value.currentTime + 10, MAX_DURATION);
 };
 
 const skipBackward = () => {
-  audio.currentTime = Math.max(audio.currentTime - 10, 0);
+  if (!audioElement.value) return;
+  audioElement.value.currentTime = Math.max(audioElement.value.currentTime - 10, 0);
 };
 
 const toggleRepeat = () => {
@@ -203,27 +215,33 @@ const toggleRepeat = () => {
 };
 
 const toggleMute = () => {
-  audio.muted = !audio.muted;
-  isMuted.value = audio.muted;
+  if (!audioElement.value) return;
+  audioElement.value.muted = !audioElement.value.muted;
+  isMuted.value = audioElement.value.muted;
 };
 
 const handleSeek = (time) => {
-  audio.currentTime = Math.min(time, MAX_DURATION);
+  if (!audioElement.value) return;
+  audioElement.value.currentTime = Math.min(time, MAX_DURATION);
 };
 
 // Lifecycle hooks
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
-  audio.addEventListener('timeupdate', updateTime);
-  audio.addEventListener('loadedmetadata', updateDuration);
-  audio.addEventListener('ended', handleEnded);
+  if (audioElement.value) {
+    audioElement.value.addEventListener('timeupdate', updateTime);
+    audioElement.value.addEventListener('loadedmetadata', updateDuration);
+    audioElement.value.addEventListener('ended', handleEnded);
+  }
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
-  audio.removeEventListener('timeupdate', updateTime);
-  audio.removeEventListener('loadedmetadata', updateDuration);
-  audio.removeEventListener('ended', handleEnded);
-  audio.pause();
+  if (audioElement.value) {
+    audioElement.value.removeEventListener('timeupdate', updateTime);
+    audioElement.value.removeEventListener('loadedmetadata', updateDuration);
+    audioElement.value.removeEventListener('ended', handleEnded);
+    audioElement.value.pause();
+  }
 });
 </script>
