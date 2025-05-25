@@ -48,6 +48,7 @@
         />
         <h3 class="text-xl md:text-2xl font-medium mb-2">Beginning of March</h3>
         <p class="text-sm md:text-base text-zinc-400">scarlooo</p>
+        <p class="text-lg md:text-xl text-purple-400 mt-4">Happy Birthday Jaii! 🎂✨</p>
       </div>
     </div>
 
