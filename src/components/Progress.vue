@@ -1,20 +1,20 @@
 <!-- Progress.vue -->
 <template>
-  <div class="flex items-center gap-2 w-full my-4">
-    <span class="text-xs md:text-sm text-zinc-400 w-12 md:w-14 text-right">{{ formatTime(currentTime) }}</span>
+  <div class="w-full mb-2">
     <div
-      class="progress-bar flex-1"
+      class="relative w-full h-1 bg-purple-100 rounded cursor-pointer"
+      @click="handleClick"
       ref="progressBar"
-      @click="handleProgressClick"
     >
       <div
-        class="progress-bar-fill"
+        class="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded"
         :style="{ width: `${progress}%` }"
-      >
-        <div class="progress-bar-handle"></div>
-      </div>
+      ></div>
     </div>
-    <span class="text-xs md:text-sm text-zinc-400 w-12 md:w-14">{{ formatTime(duration) }}</span>
+    <div class="flex justify-between mt-1">
+      <span class="text-xs text-gray-500">{{ formatTime(currentTime) }}</span>
+      <span class="text-xs text-gray-500">{{ formatTime(duration) }}</span>
+    </div>
   </div>
 </template>
 

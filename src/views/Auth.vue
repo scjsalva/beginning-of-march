@@ -1,17 +1,17 @@
 <template>
-  <div class="min-h-screen bg-zinc-900 text-white flex flex-col items-center justify-center p-4">
-    <div class="max-w-xl w-full bg-zinc-800 rounded-lg p-8">
-      <h1 class="text-3xl font-bold mb-2 text-center bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">
+  <div class="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 text-gray-800 flex flex-col items-center justify-center p-4">
+    <div class="max-w-xl w-full bg-white rounded-lg shadow-lg p-8 border border-purple-100">
+      <h1 class="text-3xl font-bold mb-2 text-center bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
         How do I know it's you?
       </h1>
 
-      <p class="text-center text-zinc-400 mb-8">
+      <p class="text-center text-gray-500 mb-8">
         Let's see if you remember these special moments...
       </p>
 
       <form @submit.prevent="checkAnswers" class="space-y-8">
         <div>
-          <label class="block text-sm font-medium text-zinc-300 mb-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
             When did we first meet?
           </label>
           <div class="flex gap-2 justify-center">
@@ -23,7 +23,7 @@
                 @input="handleDateInput($event, 'month1', 'month2')"
                 @keydown.delete="handleDelete($event, 'month1', null)"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
               <input
                 ref="month2"
@@ -32,10 +32,10 @@
                 @input="handleDateInput($event, 'month2', 'day1')"
                 @keydown.delete="handleDelete($event, 'month2', 'month1')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
             </div>
-            <div class="flex items-center text-zinc-400">-</div>
+            <div class="flex items-center text-gray-400">-</div>
             <div class="flex gap-2">
               <input
                 ref="day1"
@@ -44,7 +44,7 @@
                 @input="handleDateInput($event, 'day1', 'day2')"
                 @keydown.delete="handleDelete($event, 'day1', 'month2')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
               <input
                 ref="day2"
@@ -53,10 +53,10 @@
                 @input="handleDateInput($event, 'day2', 'year1')"
                 @keydown.delete="handleDelete($event, 'day2', 'day1')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
             </div>
-            <div class="flex items-center text-zinc-400">-</div>
+            <div class="flex items-center text-gray-400">-</div>
             <div class="flex gap-2">
               <input
                 ref="year1"
@@ -65,7 +65,7 @@
                 @input="handleDateInput($event, 'year1', 'year2')"
                 @keydown.delete="handleDelete($event, 'year1', 'day2')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
               <input
                 ref="year2"
@@ -74,7 +74,7 @@
                 @input="handleDateInput($event, 'year2', 'year3')"
                 @keydown.delete="handleDelete($event, 'year2', 'year1')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
               <input
                 ref="year3"
@@ -83,7 +83,7 @@
                 @input="handleDateInput($event, 'year3', 'year4')"
                 @keydown.delete="handleDelete($event, 'year3', 'year2')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
               <input
                 ref="year4"
@@ -92,11 +92,11 @@
                 @input="handleDateInput($event, 'year4', null)"
                 @keydown.delete="handleDelete($event, 'year4', 'year3')"
                 type="text"
-                class="w-12 h-12 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none text-xl"
+                class="w-12 h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-xl"
               />
             </div>
           </div>
-          <div class="flex justify-center gap-20 mt-2 text-xs text-zinc-400">
+          <div class="flex justify-center gap-20 mt-2 text-xs text-gray-400">
             <span>MM</span>
             <span>DD</span>
             <span>YYYY</span>
@@ -104,24 +104,24 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-zinc-300 mb-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
             What movie did we watch on our first date?
           </label>
           <input
             v-model="movieAnswer"
             type="text"
-            class="w-full p-3 rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:border-purple-400 focus:outline-none"
+            class="w-full p-3 rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none"
             placeholder="Enter your answer..."
           />
         </div>
 
-        <div v-if="error" class="text-red-400 text-sm text-center">
+        <div v-if="error" class="text-red-500 text-sm text-center">
           {{ error }}
         </div>
 
         <button
           type="submit"
-          class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+          class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:opacity-90 transition-opacity shadow-md hover:shadow-lg"
         >
           Submit
         </button>

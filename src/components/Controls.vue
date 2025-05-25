@@ -1,6 +1,6 @@
 <!-- Controls.vue -->
 <template>
-  <div class="flex items-center justify-center gap-4 py-1">
+  <div class="flex items-center justify-center gap-4 py-1 text-black">
     <!-- Left side controls -->
     <button
       class="control-button aspect-square"

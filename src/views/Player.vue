@@ -1,6 +1,6 @@
 <!-- Player.vue -->
 <template>
-  <div class="min-h-screen flex flex-col relative">
+  <div class="min-h-screen flex flex-col relative bg-gradient-to-br from-pink-100 to-purple-100">
     <!-- Menu Button -->
     <div class="absolute top-4 right-4 menu-container">
       <button
@@ -9,7 +9,7 @@
       >
         <font-awesome-icon
           :icon="['fas', 'ellipsis-vertical']"
-          class="fa-icon text-zinc-400 transition-opacity hover:opacity-100"
+          class="fa-icon text-gray-600 transition-opacity hover:opacity-100"
           style="opacity: 0.7;"
         />
       </button>
@@ -17,19 +17,19 @@
       <!-- Dropdown Menu -->
       <div
         v-show="isMenuOpen"
-        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-zinc-800 ring-1 ring-black ring-opacity-5 z-50"
+        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
       >
         <div class="py-1">
           <button
             @click="downloadSong"
-            class="flex items-center w-full px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all duration-150 cursor-pointer active:bg-zinc-600"
+            class="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-all duration-150 cursor-pointer active:bg-purple-100"
           >
             <font-awesome-icon :icon="['fas', 'download']" class="mr-3 w-4 h-4" />
             Download song
           </button>
           <button
             @click="shareLink"
-            class="flex items-center w-full px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all duration-150 cursor-pointer active:bg-zinc-600"
+            class="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-all duration-150 cursor-pointer active:bg-purple-100"
           >
             <font-awesome-icon :icon="['fas', 'share']" class="mr-3 w-4 h-4" />
             Share link
@@ -46,13 +46,13 @@
           alt="Album Cover"
           class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-lg shadow-xl mb-6 mx-auto"
         />
-        <h3 class="text-xl md:text-2xl font-medium mb-2">Beginning of March</h3>
-        <p class="text-sm md:text-base text-zinc-400">scarlooo</p>
+        <h3 class="text-xl md:text-2xl font-medium mb-2 text-gray-800">Beginning of March</h3>
+        <p class="text-sm md:text-base text-gray-500">scarlooo</p>
       </div>
     </div>
 
     <!-- Player Controls -->
-    <div class="player-container">
+    <div class="player-container bg-white bg-opacity-80 backdrop-blur-sm shadow-lg">
       <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-4">
         <Progress
           :current-time="currentTime"
