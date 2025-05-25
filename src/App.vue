@@ -1,11 +1,9 @@
 <script setup>
-import Player from './components/Player.vue'
+// App.vue now just needs to render the router view
 </script>
 
 <template>
-  <div class="min-h-screen bg-zinc-900 text-white">
-    <Player />
-  </div>
+  <router-view></router-view>
 </template>
 
 <style scoped>

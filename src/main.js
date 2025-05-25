@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 import './style.css'
 
 /* Import Font Awesome core */
@@ -39,6 +40,9 @@ const app = createApp(App)
 
 /* Register Font Awesome component */
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+/* Use router */
+app.use(router)
 
 /* Mount the app */
 app.mount('#app')

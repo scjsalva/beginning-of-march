@@ -85,8 +85,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import Controls from './Controls.vue';
-import Progress from './Progress.vue';
+import Controls from '../components/Controls.vue';
+import Progress from '../components/Progress.vue';
 
 // Constants
 const MAX_DURATION = 177; // 2:57 in seconds
