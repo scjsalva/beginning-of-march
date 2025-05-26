@@ -1,11 +1,15 @@
 <template>
   <div class="pinterest-grid">
-    <div class="grid-container">
+    <div 
+      class="grid-container"
+      :style="{ pointerEvents: pointerEvents ? 'auto' : 'none' }"
+    >
       <div
         v-for="(item, index) in items"
         :key="`${item.imageUrl}-${index}`"
         class="grid-item"
-        @click="$emit('item-click', item)"
+        :class="{ 'no-click': item.isFlipping }"
+        @click="!item.isFlipping && $emit('item-click', item)"
       >
         <div 
           class="flip-container"
@@ -71,6 +75,10 @@ const props = defineProps({
     type: Array,
     required: true,
     default: () => []
+  },
+  pointerEvents: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -138,8 +146,7 @@ const onImageLoad = (index) => {
 }
 
 .grid-item:hover {
-  transform: scale(1.05);
-  z-index: 1;
+  transform: none;
 }
 
 .flip-container {
@@ -183,7 +190,6 @@ const onImageLoad = (index) => {
   background-color: #f0f0f0;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
 }
 
 .image-container.is-loading {
@@ -223,23 +229,15 @@ const onImageLoad = (index) => {
 }
 
 .grid-item:hover .image-container {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .image-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  padding: 8px;
-  color: white;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  display: none;
 }
 
 .grid-item:hover .image-overlay {
-  opacity: 1;
+  opacity: 0;
 }
 
 .item-title {
@@ -267,5 +265,10 @@ const onImageLoad = (index) => {
   0% { opacity: 1; }
   50% { opacity: 0.7; }
   100% { opacity: 1; }
+}
+
+.grid-item.no-click {
+  pointer-events: none;
+  cursor: default;
 }
 </style>

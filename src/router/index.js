@@ -24,6 +24,11 @@ const router = createRouter({
       path: '/',
       name: 'player',
       component: Player
+    },
+    {
+      path: '/birthday-wishes',
+      name: 'wishes',
+      component: () => import('../views/Wishes.vue')
     }
   ]
 })
@@ -87,9 +92,11 @@ style.textContent = `
 @keyframes fadeOut {
   from {
     opacity: 1;
+    background: transparent;
   }
   to {
     opacity: 0;
+    background: white;
   }
 }
 `
