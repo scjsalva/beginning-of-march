@@ -84,7 +84,10 @@ router.beforeEach(async (to, from, next) => {
   // Force page reload when navigating between routes (except for auth page)
   if (from.name && to.path !== '/auth') {
     await fadeOutTransition()
-    window.location.href = to.fullPath
+    // Get the current base path from window.location
+    const currentPath = window.location.pathname
+    const basePath = currentPath.includes('/happy-birthday-jaii') ? '/happy-birthday-jaii' : ''
+    window.location.href = `${basePath}${to.fullPath}`
     return
   }
 
