@@ -47,7 +47,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="col-span-full text-center mt-12">
+        <div class="col-span-full text-center mt-12 my-24">
           <router-link to="/" class="text-purple-600 hover:text-purple-700 font-medium inline-flex items-center group">
             <span class="transform group-hover:-translate-x-1 transition-transform duration-150">←</span>
             <span class="ml-2">Back to Home</span>
