@@ -11,8 +11,10 @@ const fadeOutTransition = () => {
   })
 }
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii/' : '/'
+
 const router = createRouter({
-  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii/' : '/'),
+  history: createWebHistory(BASE_URL),
   routes: [
     {
       path: '/auth',
@@ -45,7 +47,7 @@ const router = createRouter({
 // Add navigation guard
 router.beforeEach(async (to, from, next) => {
   const auth = localStorage.getItem('auth')
-  
+
   // If no auth data exists
   if (!auth) {
     // Allow access to auth page, redirect others to auth
@@ -75,14 +77,15 @@ router.beforeEach(async (to, from, next) => {
 
   // If auth is valid and trying to access auth page, redirect to home
   if (to.path === '/auth') {
-    next('/')
+    next({ name: 'home' })
     return
   }
 
   // Force page reload when navigating between routes (except for auth page)
   if (from.name && to.path !== '/auth') {
     await fadeOutTransition()
-    window.location.href = to.fullPath
+    const fullPath = BASE_URL.slice(1) + to.fullPath.slice(1)
+    window.location.href = fullPath
     return
   }
 
@@ -90,7 +93,7 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-export default router 
+export default router
 
 // Add global styles for transitions
 const style = document.createElement('style')
@@ -104,4 +107,4 @@ style.textContent = `
   }
 }
 `
-document.head.appendChild(style) 
+document.head.appendChild(style)
