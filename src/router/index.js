@@ -3,6 +3,14 @@ import Home from '../views/Home.vue'
 import Player from '../views/Player.vue'
 import Auth from '../views/Auth.vue'
 
+// Function to handle fade out transition
+const fadeOutTransition = () => {
+  return new Promise((resolve) => {
+    document.body.style.animation = 'fadeOut 0.5s ease-in forwards'
+    setTimeout(resolve, 500)
+  })
+}
+
 const router = createRouter({
   history: createWebHistory(process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii/' : '/'),
   routes: [
@@ -35,7 +43,7 @@ const router = createRouter({
 })
 
 // Add navigation guard
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const auth = localStorage.getItem('auth')
   
   // If no auth data exists
@@ -71,8 +79,29 @@ router.beforeEach((to, from, next) => {
     return
   }
 
+  // Force page reload when navigating between routes (except for auth page)
+  if (from.name && to.path !== '/auth') {
+    await fadeOutTransition()
+    window.location.href = to.fullPath
+    return
+  }
+
   // Otherwise allow access to requested page
   next()
 })
 
 export default router 
+
+// Add global styles for transitions
+const style = document.createElement('style')
+style.textContent = `
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+`
+document.head.appendChild(style) 
