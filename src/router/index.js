@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 import Player from '../views/Player.vue'
 import Auth from '../views/Auth.vue'
 
@@ -23,23 +22,8 @@ const router = createRouter({
     },
     {
       path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/just-for-you',
       name: 'player',
       component: Player
-    },
-    {
-      path: '/birthday-wishes',
-      name: 'wishes',
-      component: () => import('../views/Wishes.vue')
-    },
-    {
-      path: '/our-story',
-      name: 'story',
-      component: () => import('../views/Story.vue')
     }
   ]
 })
@@ -77,7 +61,7 @@ router.beforeEach(async (to, from, next) => {
 
   // If auth is valid and trying to access auth page, redirect to home
   if (to.path === '/auth') {
-    next({ name: 'home' })
+    next({ name: 'player' })
     return
   }
 
