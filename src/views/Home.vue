@@ -1,21 +1,13 @@
 <template>
   <div class="home-container">
-    <!-- Background Grid -->
-    <div class="background-grid" :class="{ 'is-loading': isLoading }">
-      <PinterestGrid
-        :items="backgroundImages"
-        @item-click="() => {}"
-      />
-    </div>
-
-    <!-- Main Content Overlay -->
+    <!-- Main Content -->
     <div class="content-overlay">
       <div class="max-w-2xl w-full text-center bg-white p-12 rounded-lg">
         <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
           Happy Birthday Jaii!
         </h1>
 
-        <p class="text-lg md:text-xl text-gray-100 mb-12">
+        <p class="text-lg md:text-xl text-gray-600 mb-12">
           Welcome to your special birthday website! ✨
         </p>
 
@@ -40,13 +32,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import PinterestGrid from '../components/PinterestGrid.vue'
-
-const BATCH_SIZE = 12
-const BATCH_DELAY = 200
-
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii' : ''
+import { ref } from 'vue'
 
 const links = [
   {
@@ -65,74 +51,6 @@ const links = [
     path: "our-story"
   }
 ]
-
-const backgroundImages = ref([])
-const isLoading = ref(true)
-
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-const getOptimizedImageUrl = (originalUrl) => {
-  const filename = originalUrl.split('/').pop()
-  const basename = filename.split('.')[0]
-  return {
-    mobile: `${BASE_URL}/images/optimized/${basename}_mobile.webp`,
-    tablet: `${BASE_URL}/images/optimized/${basename}_tablet.webp`,
-    desktop: `${BASE_URL}/images/optimized/${basename}_desktop.webp`
-  }
-}
-
-const loadImageBatch = async (images, startIndex) => {
-  const batch = images.slice(startIndex, startIndex + BATCH_SIZE)
-  if (batch.length === 0) {
-    isLoading.value = false
-    return
-  }
-
-  const batchImages = batch.map((imageUrl, index) => {
-    const optimizedUrls = getOptimizedImageUrl(imageUrl)
-    return {
-      imageUrl: optimizedUrls.mobile,
-      srcset: `${optimizedUrls.mobile} 100w, ${optimizedUrls.tablet} 110w, ${optimizedUrls.desktop} 120w`,
-      sizes: "(max-width: 640px) 100px, (max-width: 1024px) 110px, 120px",
-      title: `Memory ${startIndex + index + 1}`,
-      description: 'Our special moments together'
-    }
-  })
-
-  backgroundImages.value.push(...batchImages)
-
-  // Load next batch after delay
-  if (startIndex + BATCH_SIZE < images.length) {
-    setTimeout(() => {
-      loadImageBatch(images, startIndex + BATCH_SIZE)
-    }, BATCH_DELAY)
-  } else {
-    isLoading.value = false
-  }
-}
-
-onMounted(async () => {
-  // Use Vite's glob import to get all images
-  const imageModules = import.meta.glob('/public/images/*.(png|jpg|PNG|JPG)')
-  const imageUrls = Object.keys(imageModules).map(path => {
-    // Remove /public prefix but keep /images path
-    const relativePath = path.replace('/public', '')
-    // For production, prepend the base URL
-    return process.env.NODE_ENV === 'production' ? `/happy-birthday-jaii${relativePath}` : relativePath
-  })
-
-  // Shuffle the images before loading
-  const shuffledImages = shuffleArray([...imageUrls])
-
-  // Start loading images in batches
-  loadImageBatch(shuffledImages, 0)
-})
 </script>
 
 <style scoped>
@@ -141,34 +59,7 @@ onMounted(async () => {
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: #f8f8f8;
-}
-
-.background-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  background: #f8f8f8;
-}
-
-.background-grid.is-loading::after {
-  backdrop-filter: blur(8px);
-}
-
-.background-grid::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(248, 248, 248, 0.25);
-  backdrop-filter: blur(0);
-  transition: backdrop-filter 0.5s ease;
-  z-index: 1;
+  background: linear-gradient(135deg, #fdf2f8 0%, #e9d5ff 100%);
 }
 
 .content-overlay {
