@@ -484,7 +484,12 @@ onMounted(() => {
 
   // Load background images
   const imageModules = import.meta.glob('/public/images/*')
-  const imageUrls = Object.keys(imageModules).map(path => path.replace('/public', ''))
+  const imageUrls = Object.keys(imageModules).map(path => {
+    // Remove /public prefix but keep /images path
+    const relativePath = path.replace('/public', '')
+    // For production, prepend the base URL
+    return process.env.NODE_ENV === 'production' ? `/happy-birthday-jaii${relativePath}` : relativePath
+  })
   allImages.value = [...imageUrls]  // Store all images for later use
   const shuffledImages = shuffleArray([...imageUrls])
   loadImageBatch(shuffledImages, 0)

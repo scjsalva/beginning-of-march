@@ -120,7 +120,12 @@ const loadImageBatch = async (images, startIndex) => {
 onMounted(async () => {
   // Use Vite's glob import to get all images
   const imageModules = import.meta.glob('/public/images/*.(png|jpg|PNG|JPG)')
-  const imageUrls = Object.keys(imageModules).map(path => path.replace('/public', BASE_URL))
+  const imageUrls = Object.keys(imageModules).map(path => {
+    // Remove /public prefix but keep /images path
+    const relativePath = path.replace('/public', '')
+    // For production, prepend the base URL
+    return process.env.NODE_ENV === 'production' ? `/happy-birthday-jaii${relativePath}` : relativePath
+  })
 
   // Shuffle the images before loading
   const shuffledImages = shuffleArray([...imageUrls])
