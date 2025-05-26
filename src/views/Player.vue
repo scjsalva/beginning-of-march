@@ -250,13 +250,15 @@ const shuffleArray = (array) => {
   return array;
 }
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii' : ''
+
 const getOptimizedImageUrl = (originalUrl) => {
   const filename = originalUrl.split('/').pop()
   const basename = filename.split('.')[0]
   return {
-    mobile: `/images/optimized/${basename}_mobile.webp`,
-    tablet: `/images/optimized/${basename}_tablet.webp`,
-    desktop: `/images/optimized/${basename}_desktop.webp`
+    mobile: `${BASE_URL}/images/optimized/${basename}_mobile.webp`,
+    tablet: `${BASE_URL}/images/optimized/${basename}_tablet.webp`,
+    desktop: `${BASE_URL}/images/optimized/${basename}_desktop.webp`
   }
 }
 

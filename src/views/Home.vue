@@ -46,6 +46,8 @@ import PinterestGrid from '../components/PinterestGrid.vue'
 const BATCH_SIZE = 12
 const BATCH_DELAY = 200
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/happy-birthday-jaii' : ''
+
 const links = [
   {
     title: "Just For You",
@@ -79,9 +81,9 @@ const getOptimizedImageUrl = (originalUrl) => {
   const filename = originalUrl.split('/').pop()
   const basename = filename.split('.')[0]
   return {
-    mobile: `/images/optimized/${basename}_mobile.webp`,
-    tablet: `/images/optimized/${basename}_tablet.webp`,
-    desktop: `/images/optimized/${basename}_desktop.webp`
+    mobile: `${BASE_URL}/images/optimized/${basename}_mobile.webp`,
+    tablet: `${BASE_URL}/images/optimized/${basename}_tablet.webp`,
+    desktop: `${BASE_URL}/images/optimized/${basename}_desktop.webp`
   }
 }
 
@@ -117,8 +119,8 @@ const loadImageBatch = async (images, startIndex) => {
 
 onMounted(async () => {
   // Use Vite's glob import to get all images
-  const imageModules = import.meta.glob('/public/images/*')
-  const imageUrls = Object.keys(imageModules).map(path => path.replace('/public', ''))
+  const imageModules = import.meta.glob('/public/images/*.(png|jpg|PNG|JPG)')
+  const imageUrls = Object.keys(imageModules).map(path => path.replace('/public', BASE_URL))
 
   // Shuffle the images before loading
   const shuffledImages = shuffleArray([...imageUrls])
