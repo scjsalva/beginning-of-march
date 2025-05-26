@@ -226,12 +226,20 @@
         @click="selectedImage = null"
       >
         <div
-          class="w-[min(600px,calc(100vw-4rem))] h-[min(600px,calc(100vw-4rem))] bg-white"
+          class="w-[min(600px,calc(100vw-4rem))] h-[min(600px,calc(100vw-4rem))] bg-white relative"
         >
+          <div
+            v-if="isModalImageLoading"
+            class="absolute inset-0 flex items-center justify-center bg-gray-50"
+          >
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-purple-500"></div>
+          </div>
           <img
             :src="selectedImage"
             class="w-full h-full object-cover cursor-pointer"
             alt="Selected memory"
+            @load="isModalImageLoading = false"
+            @error="isModalImageLoading = false"
           />
         </div>
       </div>
@@ -240,7 +248,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import Controls from '../components/Controls.vue';
 import Progress from '../components/Progress.vue';
 import PinterestGrid from '../components/PinterestGrid.vue';
@@ -500,9 +508,14 @@ const IMAGE_EXTENSIONS = {
   '5057': 'jpg'
 }
 
+// Add loading state
+const isModalImageLoading = ref(false)
+
 // Update handleImageClick function
 const handleImageClick = (image) => {
   if (!showGridOverlay.value && !image.isFlipping) {
+    // Set loading state to true before loading new image
+    isModalImageLoading.value = true
     // Extract the image number from the optimized filename
     const imageNumber = image.imageUrl.match(/IMG_(\d+)/)[1]
     // Get the correct extension for this image number
@@ -511,6 +524,13 @@ const handleImageClick = (image) => {
     selectedImage.value = `${BASE_URL}/images/IMG_${imageNumber}.${extension}`
   }
 }
+
+// Reset loading state when modal is closed
+watch(selectedImage, (newValue) => {
+  if (!newValue) {
+    isModalImageLoading.value = false
+  }
+})
 
 // Lifecycle hooks
 onMounted(() => {
