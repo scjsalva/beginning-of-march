@@ -183,7 +183,7 @@
         >
           <div class="flex justify-between items-start mb-6">
             <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
-              A Letter For You
+              Happiest Birthday Jaii!
             </h2>
             <button
               @click="showMessage = false"
@@ -195,16 +195,25 @@
             </button>
           </div>
 
-          <div class="prose prose-zinc max-w-none">
-            <p class="text-gray-600 leading-relaxed">
-              Dear Jaii,
+          <div class="prose prose-zinc max-w-none text-justify">
+            <p class="text-gray-600 leading-relaxed mt-4">
+              I hope today brings you all the love and joy you give so freely to everyone around you. You care deeply—for your family, your friends, and the things you’re passionate about—and it shows in everything you do. You carry this quiet grace, and you’re the kind of person who makes others want to slow down and appreciate the good around them. You’re smart, kind, endlessly amazing in ways that are both loud and quietly felt—and I feel so lucky to know you the way I do.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
-              [Your heartfelt message will go here...]
+              Being with you these last four months has been one of the most grounding and beautiful experiences of my life. You make the ordinary feel special, and not even on the toughest days—especially on the toughest days—you somehow make things feel lighter. You are my 0. You’re not just someone in my life—you’ve been a steady, calm presence from the start. In a world full of noise and chaos, you’ve become an anchor—and for that, I’m really thankful.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
-              With love,<br>
-              Your Secret Admirer
+              I know I have my flaws—I’m not perfect. Thank you for being patient with me, for seeing past those imperfections, and giving me the space to grow. I care about you deeply and want to keep showing up, day by day, building something meaningful with you. I’ll be here—protecting your peace, holding space for your fears, and cheering you on as you chase your dreams. You’re incredibly important to me, and I hope this keeps growing into something even more special between us.
+            </p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              I know we’re still figuring things out and taking it step by step, but I really hope this keeps growing into something more. Whatever happens, I’ll be here, hoping we keep building something really good—I’m in this with you, for as long as you’ll have me.
+            </p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              Today, I just want to celebrate you—not just because it’s your birthday, but because you deserve to be celebrated for the amazing person you are. Here’s to another year of memories, laughter, quiet moments, and everything in between. I’m so glad I get to be by your side through it all.
+            </p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              Right here, always,<br>
+              Carlo
             </p>
           </div>
         </div>
