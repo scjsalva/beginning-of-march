@@ -52,17 +52,17 @@ const links = [
   {
     title: "Just For You",
     description: "A special song and message from me",
-    path: "/just-for-you"
+    path: "just-for-you"
   },
   {
     title: "Birthday Wishes",
     description: "Messages from your loved ones",
-    path: "/birthday-wishes"
+    path: "birthday-wishes"
   },
   {
     title: "Our Story",
     description: "A journey through our memories together",
-    path: "/our-story"
+    path: "our-story"
   }
 ]
 
