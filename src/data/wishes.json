@@ -1,0 +1,64 @@
+{
+  "wishes": [
+    {
+      "id": 1,
+      "message": "Happy birthday! 🎉",
+      "from": "John"
+    },
+    {
+      "id": 2,
+      "message": "I remember when we first met in that coding bootcamp. You were already helping everyone debug their code, staying late to make sure no one fell behind. That's just who you are - always putting others first. Happy birthday to someone who makes the tech world a better place, one debug session at a time! Here's to many more years of solving problems and building amazing things together.",
+      "from": "Sarah"
+    },
+    {
+      "id": 3,
+      "message": "Wishing you bugs that are easy to fix and deployments that never fail! Happy coding & happy birthday! 🐛✨",
+      "from": "Mike"
+    },
+    {
+      "id": 4,
+      "message": "Another year of being awesome! Keep shining bright. 🌟",
+      "from": "Emma"
+    },
+    {
+      "id": 5,
+      "message": "Remember that time we stayed up all night trying to fix that one bug, only to realize it was a missing semicolon? Those are the moments I cherish most. Your dedication to perfection, even when it drives us all crazy, is what makes you special. Happy birthday to my favorite debugger!",
+      "from": "David"
+    },
+    {
+      "id": 6,
+      "message": "May your code be bug-free and your coffee be strong. Happy birthday!",
+      "from": "Lisa"
+    },
+    {
+      "id": 7,
+      "message": "You've been there through all my ups and downs, successes and failures, and somehow you always know exactly what to say to make things better. Your friendship isn't just a blessing - it's like having a personal cheerleader, therapist, and partner-in-crime all rolled into one. Happy birthday to someone who means more to me than all the stars in the JavaScript universe! 💫",
+      "from": "Alex"
+    },
+    {
+      "id": 8,
+      "message": "Sending birthday vibes! 🎂",
+      "from": "Tom"
+    },
+    {
+      "id": 9,
+      "message": "They say the best programmers are those who make complex things simple. You do that not just with code, but with life itself. Thanks for always being there to debug not just our projects, but our lives too. Happy birthday!",
+      "from": "Rachel"
+    },
+    {
+      "id": 10,
+      "message": "Happy birthday to my favorite human compiler! May your year be filled with successful builds and zero runtime errors. 🚀",
+      "from": "Chris"
+    },
+    {
+      "id": 11,
+      "message": "Keep being you! 🎈",
+      "from": "Mia"
+    },
+    {
+      "id": 12,
+      "message": "In a world of binary choices, you always manage to find the third option - the creative one, the kind one, the one that makes everyone smile. Your approach to problem-solving, whether in code or in life, inspires us all to think differently. Happy birthday to someone who proves that the best solutions often come from thinking outside the try-catch block!",
+      "from": "James"
+    }
+  ]
+} 

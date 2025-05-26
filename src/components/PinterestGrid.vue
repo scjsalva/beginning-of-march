@@ -1,6 +1,6 @@
 <template>
   <div class="pinterest-grid">
-    <div 
+    <div
       class="grid-container"
       :style="{ pointerEvents: pointerEvents ? 'auto' : 'none' }"
     >
@@ -11,7 +11,7 @@
         :class="{ 'no-click': item.isFlipping }"
         @click="!item.isFlipping && $emit('item-click', item)"
       >
-        <div 
+        <div
           class="flip-container"
           :class="{ 'is-flipping': item.isFlipping }"
         >
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   items: {
