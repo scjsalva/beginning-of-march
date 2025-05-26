@@ -23,6 +23,8 @@
                 @input="handleDateInput($event, 'month1', 'month2')"
                 @keydown.delete="handleDelete($event, 'month1', null)"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
               <input
@@ -32,6 +34,8 @@
                 @input="handleDateInput($event, 'month2', 'day1')"
                 @keydown.delete="handleDelete($event, 'month2', 'month1')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
             </div>
@@ -44,6 +48,8 @@
                 @input="handleDateInput($event, 'day1', 'day2')"
                 @keydown.delete="handleDelete($event, 'day1', 'month2')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
               <input
@@ -53,6 +59,8 @@
                 @input="handleDateInput($event, 'day2', 'year1')"
                 @keydown.delete="handleDelete($event, 'day2', 'day1')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
             </div>
@@ -65,6 +73,8 @@
                 @input="handleDateInput($event, 'year1', 'year2')"
                 @keydown.delete="handleDelete($event, 'year1', 'day2')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
               <input
@@ -74,6 +84,8 @@
                 @input="handleDateInput($event, 'year2', 'year3')"
                 @keydown.delete="handleDelete($event, 'year2', 'year1')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
               <input
@@ -83,6 +95,8 @@
                 @input="handleDateInput($event, 'year3', 'year4')"
                 @keydown.delete="handleDelete($event, 'year3', 'year2')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
               <input
@@ -92,6 +106,8 @@
                 @input="handleDateInput($event, 'year4', null)"
                 @keydown.delete="handleDelete($event, 'year4', 'year3')"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="w-8 h-8 sm:w-12 sm:h-12 text-center rounded-lg bg-purple-50 text-gray-800 border border-purple-200 focus:border-purple-500 focus:outline-none text-base sm:text-xl"
               />
             </div>
