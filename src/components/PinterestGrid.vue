@@ -3,28 +3,59 @@
     <div class="grid-container">
       <div
         v-for="(item, index) in items"
-        :key="index"
+        :key="`${item.imageUrl}-${index}`"
         class="grid-item"
         @click="$emit('item-click', item)"
       >
-        <div class="image-container" :class="{ 'is-loading': !loadedImages[index] }">
-          <div class="square-wrapper">
-            <div v-if="!loadedImages[index]" class="loading-placeholder" />
-            <img
-              :src="item.imageUrl"
-              :srcset="item.srcset"
-              :sizes="item.sizes"
-              :alt="item.title"
-              class="grid-image"
-              :class="{ 'is-loaded': loadedImages[index] }"
-              loading="lazy"
-              @load="onImageLoad(index)"
-              ref="images"
-            />
-          </div>
-          <div class="image-overlay" v-show="loadedImages[index]">
-            <h3 class="item-title">{{ item.title }}</h3>
-            <p class="item-description">{{ item.description }}</p>
+        <div 
+          class="flip-container"
+          :class="{ 'is-flipping': item.isFlipping }"
+        >
+          <div class="flipper">
+            <div class="front">
+              <div class="image-container" :class="{ 'is-loading': !loadedImages[index] }">
+                <div class="square-wrapper">
+                  <div v-if="!loadedImages[index]" class="loading-placeholder" />
+                  <img
+                    :src="item.imageUrl"
+                    :srcset="item.srcset"
+                    :sizes="item.sizes"
+                    :alt="item.title"
+                    class="grid-image"
+                    :class="{ 'is-loaded': loadedImages[index] }"
+                    loading="lazy"
+                    @load="onImageLoad(index)"
+                    ref="images"
+                  />
+                </div>
+                <div class="image-overlay" v-show="loadedImages[index]">
+                  <h3 class="item-title">{{ item.title }}</h3>
+                  <p class="item-description">{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="back">
+              <div class="image-container" :class="{ 'is-loading': !loadedImages[index] }">
+                <div class="square-wrapper">
+                  <div v-if="!loadedImages[index]" class="loading-placeholder" />
+                  <img
+                    :src="item.newImageUrl || item.imageUrl"
+                    :srcset="item.newSrcset || item.srcset"
+                    :sizes="item.sizes"
+                    :alt="item.title"
+                    class="grid-image"
+                    :class="{ 'is-loaded': loadedImages[index] }"
+                    loading="lazy"
+                    @load="onImageLoad(index)"
+                    ref="images"
+                  />
+                </div>
+                <div class="image-overlay" v-show="loadedImages[index]">
+                  <h3 class="item-title">{{ item.title }}</h3>
+                  <p class="item-description">{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -101,11 +132,48 @@ const onImageLoad = (index) => {
   cursor: pointer;
   transition: transform 0.3s ease;
   background: #f8f8f8;
+  position: relative;
+  padding-bottom: 100%;
+  perspective: 1000px;
 }
 
 .grid-item:hover {
   transform: scale(1.05);
   z-index: 1;
+}
+
+.flip-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.flip-container.is-flipping {
+  transform: rotateY(180deg);
+}
+
+.flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.back {
+  transform: rotateY(180deg);
 }
 
 .image-container {

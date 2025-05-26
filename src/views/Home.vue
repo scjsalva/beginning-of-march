@@ -10,7 +10,7 @@
 
     <!-- Main Content Overlay -->
     <div class="content-overlay">
-      <div class="max-w-2xl w-full text-center">
+      <div class="max-w-2xl w-full text-center bg-white p-12 rounded-lg">
         <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
           Happy Birthday Jaii!
         </h1>
@@ -158,7 +158,7 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(248, 248, 248, 0.5);
+  background: rgba(248, 248, 248, 0.25);
   backdrop-filter: blur(0);
   transition: backdrop-filter 0.5s ease;
   z-index: 1;
