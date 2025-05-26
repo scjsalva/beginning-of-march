@@ -1,101 +1,156 @@
 <!-- Player.vue -->
 <template>
-  <div class="min-h-screen flex flex-col relative cursor-pointer bg-gradient-to-br from-pink-100 to-purple-100">
+  <div class="min-h-screen flex flex-col relative cursor-pointer">
     <!-- Background Grid -->
     <div class="fixed inset-0">
-      <div class="absolute inset-0" @click="showAlbum = true">
-        <PinterestGrid
-          :items="backgroundImages"
-          @item-click="() => showAlbum = true"
-        />
-        <div
-          class="absolute inset-0 bg-gradient-to-br transition-all duration-300"
-          :class="[
-            showAlbum
-              ? 'from-pink-100/80 to-purple-100/80 backdrop-blur-sm'
-              : 'from-pink-100/10 to-purple-100/10'
-          ]"
-        ></div>
-      </div>
-    </div>
-
-    <!-- Message Button -->
-    <div class="absolute top-4 left-4 z-10 bg-white p-3 rounded-lg" @click="showMessage = true">
-      <button class="p-2 rounded-full hover:bg-white/50 transition-colors text-gray-700 flex items-center gap-2">
-        <font-awesome-icon :icon="['fas', 'envelope']" class="w-4 h-4" />
-        <span class="text-sm font-medium">For You</span>
-      </button>
-    </div>
-
-    <!-- Menu Button -->
-    <div class="absolute top-4 right-4 menu-container z-10 bg-white p-2 rounded-full aspect-square flex items-center justify-center" @click.stop="toggleMenu">
-      <button class="menu-button">
-        <font-awesome-icon
-          :icon="['fas', 'ellipsis-vertical']"
-          class="fa-icon text-gray-600 transition-opacity hover:opacity-100"
-          style="opacity: 0.7;"
-        />
-      </button>
-
-      <!-- Dropdown Menu -->
+      <PinterestGrid
+        :items="backgroundImages"
+        @item-click="handleImageClick"
+        :pointer-events="!showGridOverlay"
+      />
       <div
-        v-show="isMenuOpen"
-        class="absolute right-0 mt-40 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+        class="absolute inset-0 transition-all duration-300"
+        :class="showGridOverlay ? 'bg-black/30 backdrop-blur-[2px] pointer-events-auto' : 'pointer-events-none'"
+      ></div>
+    </div>
+
+    <!-- Grid Toggle Button -->
+    <div class="fixed top-6 right-6 z-30">
+      <button
+        @click="showGridOverlay = !showGridOverlay"
+        class="bg-white backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
       >
-        <div class="py-1">
-          <button
-            @click="downloadSong"
-            class="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-all duration-150 cursor-pointer active:bg-purple-100"
-          >
-            <font-awesome-icon :icon="['fas', 'download']" class="mr-3 w-4 h-4" />
-            Download song
-          </button>
-          <button
-            @click="shareLink"
-            class="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-all duration-150 cursor-pointer active:bg-purple-100"
-          >
-            <font-awesome-icon :icon="['fas', 'share']" class="mr-3 w-4 h-4" />
-            Share link
-          </button>
+        <svg
+          v-if="showGridOverlay"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-gray-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+          />
+        </svg>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-gray-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Album Info Overlay -->
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+    >
+      <div
+        v-if="showGridOverlay"
+        class="flex-1 flex items-center justify-center z-20 -mt-32"
+      >
+        <div class="text-center">
+          <img
+            :src="getAssetUrl('album-cover.jpg')"
+            alt="Album Cover"
+            class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-lg shadow-2xl mb-8 mx-auto"
+          />
+          <div class="w-48 md:w-64 lg:w-80 mx-auto">
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold mb-2 text-white drop-shadow-lg truncate">Beginning of March</h3>
+            <p class="lg:text-lg text-white/90">scarlooo</p>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Album Cover and Info -->
-    <div
-      class="flex-1 flex items-center justify-center -mt-20 z-40 transition-all duration-300"
-      :class="{ 'opacity-0 pointer-events-none': !showAlbum }"
-      @click="showAlbum = false"
-    >
-      <div class="text-center cursor-pointer">
-        <img
-          :src="getAssetUrl('album-cover.jpg')"
-          alt="Album Cover"
-          class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-lg shadow-xl mb-6 mx-auto"
-        />
-        <h3 class="text-xl md:text-2xl font-medium mb-2 text-gray-800">Beginning of March</h3>
-        <p class="text-sm md:text-base text-gray-500">scarlooo</p>
-      </div>
-    </div>
+    </Transition>
 
     <!-- Player Controls -->
-    <div class="player-container bg-white backdrop-blur-sm shadow-lg z-10">
-      <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-4 bg-white">
-        <Progress
-          :current-time="currentTime"
-          :duration="maxDuration"
-          @seek="handleSeek"
-        />
-        <Controls
-          :is-playing="isPlaying"
-          :is-repeat="isRepeat"
-          :is-muted="isMuted"
-          @toggle-play="togglePlay"
-          @skip-forward="skipForward"
-          @skip-backward="skipBackward"
-          @toggle-repeat="toggleRepeat"
-          @toggle-mute="toggleMute"
-        />
+    <div class="player-container fixed bottom-0 left-0 right-0">
+      <!-- Drawer -->
+      <div
+        class="absolute left-0 right-0 transition-all duration-300 ease-in-out z-40"
+        :class="[
+          isDrawerOpen ? '-top-[40vh]' : 'top-0'
+        ]"
+      >
+        <!-- Pull Tab -->
+        <div class="absolute -top-[42px] left-1/2 -translate-x-1/2">
+          <button
+            class="bg-white backdrop-blur-sm px-8 py-4 rounded-t-full border-t border-l border-r border-gray-200"
+            @click="isDrawerOpen = !isDrawerOpen"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 pb-2 text-gray-400 transition-transform duration-300"
+              :class="{ 'rotate-180': isDrawerOpen }"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="bg-white backdrop-blur-sm shadow-lg h-[40vh]">
+          <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-8 h-full flex flex-col items-center justify-center gap-6">
+            <button
+              @click="showMessage = true"
+              class="w-full max-w-md py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              From Me to You
+            </button>
+            <button
+              @click="$router.push('/birthday-wishes')"
+              class="w-full max-w-md py-4 px-6 rounded-xl bg-white text-gray-700 font-medium shadow border border-gray-200 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              Warm Wishes from Friends
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Content -->
+      <div class="bg-white backdrop-blur-sm shadow-lg z-50 relative">
+        <div class="max-w-screen-lg mx-auto px-4 md:px-8 py-4">
+          <Progress
+            :current-time="currentTime"
+            :duration="maxDuration"
+            @seek="handleSeek"
+          />
+          <Controls
+            :is-playing="isPlaying"
+            :is-repeat="isRepeat"
+            :is-muted="isMuted"
+            @toggle-play="togglePlay"
+            @skip-forward="skipForward"
+            @skip-backward="skipBackward"
+            @toggle-repeat="toggleRepeat"
+            @toggle-mute="toggleMute"
+          />
+        </div>
       </div>
     </div>
 
@@ -109,41 +164,78 @@
     ></audio>
 
     <!-- Message Modal -->
-    <div
-      v-if="showMessage"
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-      @click="showMessage = false"
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
     >
       <div
-        class="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8"
-        @click.stop
+        v-if="showMessage"
+        class="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+        @click="showMessage = false"
       >
-        <div class="flex justify-between items-start mb-6">
-          <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
-            A Letter For You
-          </h2>
-          <button
-            @click="showMessage = false"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <font-awesome-icon :icon="['fas', 'xmark']" class="w-5 h-5" />
-          </button>
-        </div>
+        <div
+          class="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 transform"
+          @click.stop
+        >
+          <div class="flex justify-between items-start mb-6">
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">
+              A Letter For You
+            </h2>
+            <button
+              @click="showMessage = false"
+              class="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
 
-        <div class="prose prose-zinc max-w-none">
-          <p class="text-gray-600 leading-relaxed">
-            Dear Jaii,
-          </p>
-          <p class="text-gray-600 leading-relaxed mt-4">
-            [Your heartfelt message will go here...]
-          </p>
-          <p class="text-gray-600 leading-relaxed mt-4">
-            With love,<br>
-            Your Secret Admirer
-          </p>
+          <div class="prose prose-zinc max-w-none">
+            <p class="text-gray-600 leading-relaxed">
+              Dear Jaii,
+            </p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              [Your heartfelt message will go here...]
+            </p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              With love,<br>
+              Your Secret Admirer
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
+
+    <!-- Image Modal -->
+    <Transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="selectedImage"
+        class="fixed inset-0 bg-white/80 flex items-center justify-center z-[9999] p-8"
+        @click="selectedImage = null"
+      >
+        <div
+          class="w-[min(600px,calc(100vw-4rem))] h-[min(600px,calc(100vw-4rem))] bg-white"
+        >
+          <img
+            :src="selectedImage"
+            class="w-full h-full object-cover cursor-pointer"
+            alt="Selected memory"
+          />
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -157,7 +249,9 @@ import PinterestGrid from '../components/PinterestGrid.vue';
 const MAX_DURATION = 177; // 2:57 in seconds
 
 // UI State
-const showAlbum = ref(true);
+const isDrawerOpen = ref(false);
+const showMessage = ref(false);
+const showGridOverlay = ref(true);
 
 // Get base URL for assets
 const getAssetUrl = (path) => {
@@ -174,11 +268,6 @@ const isRepeat = ref(false);
 const isMuted = ref(false);
 const currentTime = ref(0);
 const maxDuration = ref(MAX_DURATION);
-const isMenuOpen = ref(false);
-const showMessage = ref(false);
-
-// Track info
-const albumCover = ref(getAssetUrl('album-cover.jpg'));
 
 // Background images
 const backgroundImages = ref([])
@@ -300,28 +389,28 @@ let tileChangeIntervals = []
 
 const randomlyChangeTile = () => {
   if (backgroundImages.value.length === 0 || allImages.value.length === 0) return
-  
+
   // Pick a random tile to change
   const randomIndex = Math.floor(Math.random() * backgroundImages.value.length)
-  
+
   // Get a valid random image that's not adjacent to existing ones
   const randomImageUrl = getValidRandomImage(randomIndex)
   if (!randomImageUrl) return
-  
+
   // Get the current image object
   const currentImage = {...backgroundImages.value[randomIndex]}
-  
+
   // Create new image object
   const newImage = createImageObject(randomImageUrl, randomIndex)
-  
+
   // Start flip animation
   currentImage.isFlipping = true
   currentImage.newImageUrl = newImage.imageUrl
   currentImage.newSrcset = newImage.srcset
-  
+
   // Update the current image with flip animation state
   backgroundImages.value[randomIndex] = currentImage
-  
+
   // After animation completes, update to new image
   setTimeout(() => {
     backgroundImages.value[randomIndex] = {
@@ -330,76 +419,6 @@ const randomlyChangeTile = () => {
     }
   }, 600) // Match the CSS transition duration
 }
-
-// Menu functions
-const toggleMenu = (event) => {
-  event.stopPropagation();
-  isMenuOpen.value = !isMenuOpen.value;
-};
-
-const downloadSong = () => {
-  const link = document.createElement('a');
-  link.href = getAssetUrl('demo-song.mp3');
-  link.download = 'Beginning of March.mp3';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  isMenuOpen.value = false;
-};
-
-const shareLink = () => {
-  // Get the base URL of the current page
-  const baseUrl = window.location.origin + import.meta.env.BASE_URL;
-  // Create a clean URL with the desired filename
-  const directMp3Url = `${baseUrl}beginning-of-march.mp3`;
-
-  if (navigator.share) {
-    navigator.share({
-      title: 'Beginning of March - scarlooo',
-      text: 'Listen to Beginning of March:',
-      url: directMp3Url
-    }).catch(console.error);
-  } else {
-    navigator.clipboard.writeText(directMp3Url)
-      .then(() => alert('Link copied to clipboard!'))
-      .catch(console.error);
-  }
-  isMenuOpen.value = false;
-};
-
-// Click outside to close menu
-const handleClickOutside = (event) => {
-  if (isMenuOpen.value && !event.target.closest('.menu-container')) {
-    isMenuOpen.value = false;
-  }
-};
-
-// Keyboard controls
-const handleKeyPress = (event) => {
-  // Ignore if user is typing in an input field
-  if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-    return;
-  }
-
-  switch (event.code) {
-    case 'Space':
-      event.preventDefault(); // Prevent page scroll
-      togglePlay();
-      break;
-    case 'ArrowRight':
-      skipForward();
-      break;
-    case 'ArrowLeft':
-      skipBackward();
-      break;
-    case 'KeyM':
-      toggleMute();
-      break;
-    case 'KeyR':
-      toggleRepeat();
-      break;
-  }
-};
 
 // Audio event listeners
 const updateTime = () => {
@@ -472,10 +491,29 @@ const handleSeek = (time) => {
   audioElement.value.currentTime = Math.min(time, MAX_DURATION);
 };
 
+// Add selectedImage ref
+const selectedImage = ref(null)
+
+// Add this after your imports
+const IMAGE_EXTENSIONS = {
+  '5082': 'jpg',
+  '5057': 'jpg'
+}
+
+// Update handleImageClick function
+const handleImageClick = (image) => {
+  if (!showGridOverlay.value && !image.isFlipping) {
+    // Extract the image number from the optimized filename
+    const imageNumber = image.imageUrl.match(/IMG_(\d+)/)[1]
+    // Get the correct extension for this image number
+    const extension = IMAGE_EXTENSIONS[imageNumber] || 'PNG'
+    // Construct the original image path
+    selectedImage.value = `${BASE_URL}/images/IMG_${imageNumber}.${extension}`
+  }
+}
+
 // Lifecycle hooks
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-  document.addEventListener('keydown', handleKeyPress);
   if (audioElement.value) {
     audioElement.value.addEventListener('timeupdate', updateTime);
     audioElement.value.addEventListener('loadedmetadata', updateDuration);
@@ -503,8 +541,6 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
-  document.removeEventListener('keydown', handleKeyPress);
   if (audioElement.value) {
     audioElement.value.removeEventListener('timeupdate', updateTime);
     audioElement.value.removeEventListener('loadedmetadata', updateDuration);
