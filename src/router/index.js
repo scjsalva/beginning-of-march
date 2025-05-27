@@ -2,11 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Player from '../views/Player.vue'
 import Auth from '../views/Auth.vue'
 
-// Function to handle fade out transition
-const fadeOutTransition = () => {
+// Function to handle fade transition
+const fadeTransition = (type = 'out') => {
   return new Promise((resolve) => {
-    document.body.style.animation = 'fadeOut 0.5s ease-in forwards'
-    setTimeout(resolve, 500)
+    const animation = type === 'out' ? 'fadeOut' : 'fadeIn'
+    document.body.style.animation = `${animation} 0.5s ease-in-out forwards`
+    setTimeout(() => {
+      if (type === 'in') {
+        document.body.style.animation = ''
+        document.body.style.opacity = '1'
+      }
+      resolve()
+    }, 500)
   })
 }
 
@@ -70,18 +77,22 @@ router.beforeEach(async (to, from, next) => {
     return
   }
 
-  // Force page reload when navigating between routes (except for auth page)
+  // Handle page transitions (except for auth page)
   if (from.name && to.path !== '/auth') {
-    await fadeOutTransition()
-    // Get the current base path from window.location
-    const currentPath = window.location.pathname
-    const basePath = currentPath.includes('/happy-birthday-jaii') ? '/happy-birthday-jaii' : ''
-    window.location.href = `${basePath}${to.fullPath}`
+    await fadeTransition('out')
+    next()
     return
   }
 
   // Otherwise allow access to requested page
   next()
+})
+
+// Add after navigation hook to handle fade in
+router.afterEach(() => {
+  // Reset opacity and trigger fade in
+  document.body.style.opacity = '0'
+  fadeTransition('in')
 })
 
 export default router
@@ -90,14 +101,18 @@ export default router
 const style = document.createElement('style')
 style.textContent = `
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-    background: transparent;
-  }
-  to {
-    opacity: 0;
-    background: white;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
 }
 `
 document.head.appendChild(style)
