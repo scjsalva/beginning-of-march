@@ -3,7 +3,7 @@
   <div class="w-full mb-2">
     <div
       class="relative w-full h-1 bg-purple-100 rounded cursor-pointer"
-      @click="handleClick"
+      @click="handleProgressClick"
       ref="progressBar"
     >
       <div

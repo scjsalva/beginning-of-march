@@ -14,41 +14,38 @@
       ></div>
     </div>
 
-    <!-- Grid Toggle Button -->
-    <div class="fixed top-6 right-6 z-30">
+    <!-- View Mode Buttons -->
+    <div class="fixed top-6 right-6 z-30 flex flex-col gap-3">
+      <!-- Album Mode Button -->
       <button
-        @click="showGridOverlay = !showGridOverlay"
-        class="bg-white backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+        @click="setViewMode('album')"
+        class="backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+        :class="viewMode === 'album' ? 'bg-purple-500 text-white' : 'bg-black/70 text-white/70'"
       >
-        <svg
-          v-if="showGridOverlay"
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
+      </button>
+
+      <!-- Lyrics Mode Button -->
+      <button
+        @click="setViewMode('lyrics')"
+        class="backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+        :class="viewMode === 'lyrics' ? 'bg-purple-500 text-white' : 'bg-black/70 text-white/70'"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Grid Mode Button -->
+      <button
+        @click="setViewMode('grid')"
+        class="backdrop-blur-sm p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+        :class="viewMode === 'grid' ? 'bg-purple-500 text-white' : 'bg-black/70 text-white/70'"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
         </svg>
       </button>
     </div>
@@ -63,7 +60,7 @@
       leave-to-class="opacity-0 scale-95"
     >
       <div
-        v-if="showGridOverlay"
+        v-if="viewMode === 'album'"
         class="flex-1 flex items-center justify-center z-20 -mt-32"
       >
         <div class="text-center">
@@ -75,6 +72,45 @@
           <div class="w-48 md:w-64 lg:w-80 mx-auto">
             <h3 class="text-xl md:text-2xl lg:text-3xl font-bold mb-2 text-white drop-shadow-lg truncate">Beginning of March</h3>
             <p class="lg:text-lg text-white/90">scarlooo</p>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Lyrics Overlay -->
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+    >
+      <div
+        v-if="viewMode === 'lyrics'"
+        class="fixed inset-x-0 top-0 bottom-[120px] z-20 flex items-center justify-center"
+      >
+        <div class="w-full h-full bg-black/80 backdrop-blur-sm overflow-y-auto" ref="lyricsContainer">
+          <div class="max-w-4xl mx-auto min-h-full flex items-center">
+            <div class="w-full py-[40vh] px-8">
+              <div class="space-y-3">
+                <template v-for="(line, index) in lyrics" :key="line.start">
+                  <div
+                    class="text-left transition-all duration-300"
+                    :class="[
+                      {
+                        'text-purple-400 scale-105 translate-x-2': currentTime >= line.start && currentTime <= line.end,
+                        'text-white/50 scale-100': currentTime < line.start || currentTime > line.end
+                      },
+                      [8, 12, 16, 20, 24].includes(index) ? 'pt-8' : ''
+                    ]"
+                    :ref="el => { if (currentTime >= line.start && currentTime <= line.end) currentLyricElement = el }"
+                  >
+                    <p class="text-xl md:text-2xl font-medium tracking-wide">{{ line.text }}</p>
+                  </div>
+                </template>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,16 +233,16 @@
 
           <div class="prose prose-zinc max-w-none text-justify">
             <p class="text-gray-600 leading-relaxed mt-4">
-              I hope today brings you all the love and joy you give to everyone around you. You care deeply—for your family, your friends, and the things you’re passionate about—and it shows in everything you do. You carry this quiet grace, and you’re the kind of person who makes others want to slow down and appreciate the good around them. You’re smart, kind, endlessly amazing in ways that are both loud and quietly felt—and I feel so lucky to know you the way I do.
+              I hope today brings you all the love and joy you give to everyone around you. You care deeply—for your family, your friends, and the things you're passionate about—and it shows in everything you do. You carry this quiet grace, and you're the kind of person who makes others want to slow down and appreciate the good around them. You're smart, kind, endlessly amazing in ways that are both loud and quietly felt—and I feel so lucky to know you the way I do.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
-              Getting to know you these last four months has been one of the most grounding and beautiful experiences of my life. You make the ordinary feel special, even on the toughest days—especially on the toughest days—you somehow make things feel lighter. You are my 0. You’re not just someone in my life—you’ve been a steady, calm presence from the moment you came. In a world full of noise and chaos, you’ve become an anchor—and for that, I’m really thankful.
+              Getting to know you these last four months has been one of the most grounding and beautiful experiences of my life. You make the ordinary feel special, even on the toughest days—especially on the toughest days—you somehow make things feel lighter. You are my 0. You're not just someone in my life—you've been a steady, calm presence from the moment you came. In a world full of noise and chaos, you've become an anchor—and for that, I'm really thankful.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
-              I have my flaws and I have a long way to go. Thank you for being patient with me, for seeing past those imperfections, and giving me the chance to grow. I care about you deeply and want to keep showing up, day by day, building something meaningful with you. I’ll be here—I got your back, holding space for your fears, and cheering you on as you chase your dreams. I hope we keep growing together, one problem at a time. I’m in this with you, for as long as you’ll have me.
+              I have my flaws and I have a long way to go. Thank you for being patient with me, for seeing past those imperfections, and giving me the chance to grow. I care about you deeply and want to keep showing up, day by day, building something meaningful with you. I'll be here—I got your back, holding space for your fears, and cheering you on as you chase your dreams. I hope we keep growing together, one problem at a time. I'm in this with you, for as long as you'll have me.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
-              Today is your day—not just because it’s your birthday, but because you deserve to be celebrated for the amazing person you are. Here’s to another year of memories, laughter, mundane everyday moments, and everything in between. I’m so glad I get to be by your side through it all.
+              Today is your day—not just because it's your birthday, but because you deserve to be celebrated for the amazing person you are. Here's to another year of memories, laughter, mundane everyday moments, and everything in between. I'm so glad I get to be by your side through it all.
             </p>
             <p class="text-gray-600 leading-relaxed mt-4">
               Right here, always,<br>
@@ -266,6 +302,9 @@ const MAX_DURATION = 177; // 2:57 in seconds
 const isDrawerOpen = ref(false);
 const showMessage = ref(false);
 const showGridOverlay = ref(true);
+
+// View mode state
+const viewMode = ref('album') // 'album' | 'lyrics' | 'grid'
 
 // Get base URL for assets
 const getAssetUrl = (path) => {
@@ -535,6 +574,60 @@ const handleImageClick = (image) => {
 watch(selectedImage, (newValue) => {
   if (!newValue) {
     isModalImageLoading.value = false
+  }
+})
+
+// View mode handler
+const setViewMode = (mode) => {
+  viewMode.value = mode
+  showGridOverlay.value = mode !== 'grid'
+}
+
+// Lyrics data structure
+const lyrics = ref([
+  { start: 7.88, end: 11.71, text: "It was the beginning of March when we met" },
+  { start: 11.72, end: 16.27, text: "A quiet invitation I'll never forget" },
+  { start: 16.28, end: 20.59, text: "You asked me out like it was nothing at all" },
+  { start: 20.60, end: 28.91, text: "But in that moment, I felt stars start to fall" },
+  { start: 29.08, end: 32.87, text: "Interstellar played, but I barely saw the screen" },
+  { start: 32.88, end: 36.83, text: "Lost in your curiosity, your tears in between" },
+  { start: 36.84, end: 41.07, text: "Like gravity pulled me right into your space" },
+  { start: 41.08, end: 49.31, text: "And suddenly the world was softer place" },
+  { start: 49.32, end: 53.00, text: "Was it written in the stars, the way you feel like home?" },
+  { start: 53.01, end: 57.30, text: "Like I've known you forever, though we've only just begun" },
+  { start: 57.31, end: 62.43, text: "With your old soul kindness and a heart so true" },
+  { start: 62.44, end: 66.84, text: "March began, and so did you" },
+  { start: 74.85, end: 79.19, text: "You hum old songs when you think no one's near" },
+  { start: 79.20, end: 83.39, text: "Writing your thoughts with the softest of care" },
+  { start: 83.40, end: 87.00, text: "You give what you have just to brighten a day" },
+  { start: 87.01, end: 92.00, text: "Like blossoms, you bloom in your own quiet way" },
+  { start: 95.64, end: 99.50, text: "Was it written in the stars, the way you feel like home?" },
+  { start: 99.51, end: 104.15, text: "Like I've known you forever, though we've only just begun" },
+  { start: 104.16, end: 108.00, text: "With your old soul kindness and a heart so true" },
+  { start: 108.01, end: 112.71, text: "March began, and so did you" },
+  { start: 120.80, end: 124.67, text: "So chase your dreams, I'll be right here" },
+  { start: 124.68, end: 129.27, text: "You take care of them, I'll take care of us, my dear" },
+  { start: 129.28, end: 134.39, text: "No need to worry, no need to stray" },
+  { start: 134.40, end: 138.00, text: "I'll be your calm at the end of the day" },
+  { start: 139.97, end: 143.89, text: "It was the beginning, but it feels like much more" },
+  { start: 143.90, end: 148.39, text: "Like I've known you in lives I don't recall before" },
+  { start: 148.40, end: 152.59, text: "March brought you to me, like a fated spark" },
+  { start: 152.60, end: 159.00, text: "And I'll hold you close, my beginning of March" }
+]);
+
+// Update the currentTime watcher to handle lyrics highlighting
+watch(currentTime, (newTime) => {
+  // Existing time update logic remains
+});
+
+// Refs for lyrics scrolling
+const lyricsContainer = ref(null)
+const currentLyricElement = ref(null)
+
+// Watch for changes in the current lyric element
+watch(currentLyricElement, (el) => {
+  if (el && lyricsContainer.value) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 })
 
